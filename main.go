@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api-gin-gonic/config"
 	"api-gin-gonic/docs"
 	"api-gin-gonic/routes"
 	"fmt"
@@ -28,6 +29,10 @@ func main() {
 	// db := config.ConnectDataBase()
 	// sqlDB, _ := db.DB()
 	// defer sqlDB.Close()
+
+	db := config.ConnectionDB()
+	postgree, _ := db.DB()
+	defer postgree.Close()
 
 	r := routes.SetupRouter()
 	r.Run()

@@ -3,7 +3,9 @@ package main
 import (
 	"api-gin-gonic/config"
 	"api-gin-gonic/docs"
+	"api-gin-gonic/repository"
 	"api-gin-gonic/routes"
+	"api-gin-gonic/service"
 	"fmt"
 )
 
@@ -26,15 +28,14 @@ func main() {
 	docs.SwaggerInfo.Host = "localhost:8080"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 
-	// db := config.ConnectDataBase()
-	// sqlDB, _ := db.DB()
-	// defer sqlDB.Close()
-
 	db := config.ConnectionDB()
 	postgree, _ := db.DB()
 	defer postgree.Close()
 
-	r := routes.SetupRouter()
+	ageRatingCategoryRepository := repository.NewAgeRatingCategoryRepository()
+	ageRatingCategoryService := service.NewAgeRatingCategoryService(db, ageRatingCategoryRepository)
+
+	r := routes.SetupRouter(ageRatingCategoryService)
 	r.Run()
 
 }

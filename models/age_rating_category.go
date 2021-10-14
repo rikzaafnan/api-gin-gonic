@@ -12,4 +12,9 @@ type (
 		UpdatedAt   time.Time `json:"updated_at"`
 		Movies      []Movie   `json:"-"`
 	}
+
+	AgeRatingCategoryInput struct {
+		Name        string `json:"name"`
+		Description string `json:"description"`
+	}
 )
